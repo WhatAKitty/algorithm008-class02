@@ -14,33 +14,34 @@
  * Output: 49
  *
  * @author WhatAKitty
- * @date 2020/04/19
+ * @date 2020/05/24
  * @since 1.0.0
  **/
-public class ContainerWithMostWater {
+public class ContainerWithMostWater_Week05 {
 
     public int maxArea(int[] height) {
+        if (height.length == 2) {
+            return Math.min(height[0], height[1]);
+        }
+
         int max = 0;
-        for (int i = 0, j = height.length - 1;
-             i < height.length && j > i; ) {
-            int currentArea = 0;
-            int hi = height[i];
-            int hj = height[j];
-            if (hi < hj) {
-                // i为短板，向内移动i
-                currentArea = (j - i) * hi;
+        for (int n = height.length, i = 0, j = n - 1; i < n && j > i; ) {
+            int left = height[i];
+            int right = height[j];
+
+            int area = Math.min(left, right) * (j - i);
+
+            if (left < right) {
                 do {
                     i++;
-                } while (height[i] < hi);
+                } while (height[i] < left);
             } else {
-                // j为短板，向内移动j
-                currentArea = (j - i) * hj;
                 do {
                     j--;
-                } while (height[j] < hj);
+                } while (height[j] < right);
             }
 
-            max = Math.max(max, currentArea);
+            max = Math.max(area, max);
         }
 
         return max;
